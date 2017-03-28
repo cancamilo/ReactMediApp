@@ -1,0 +1,109 @@
+@import "base/variables";
+
+// foundation
+@import "base/foundation-settings";
+@import "foundation";
+@include foundation-everything;
+
+// Components
+@import "components/callout-auth";
+@import "components/container";
+@import "components/page-actions";
+@import "components/page-title";
+@import "components/todo";
+
+body {
+  background: transparent;
+}
+.btn-div {
+  width: 100%;
+}
+
+.btn-self{
+  width: 100%;
+}
+.list-options{
+  border: 5px solid rgb(170,200,0);
+  padding-top:10px;
+}
+
+.edit-button{
+  margin-bottom: 40px;
+
+}
+
+.delete-button{
+
+}
+
+.custom-button{
+  width: 100%;
+}
+
+.empty-space{
+  width:20px;
+}
+
+.list-item-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 5px solid rgb(70,70,70);
+  margin-bottom: 5px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.list-item-container:hover{
+    background: rgb(230,230,230);
+}
+
+// .list-item-container:active{
+//     background: rgb(20,20,20);
+// }
+
+#footer{
+  position: sticky;
+  bottom: 0;
+  margin: auto;
+  border: 4px solid rgb(70,70,70);
+  background-color: rgb(200,200,200);
+}
+
+.popup-container {
+  position: relative;
+  display: inline-block;
+
+}
+.list-title {
+  float: left;
+  padding: 5px;
+}
+.add-button {
+  float: right;
+}
+.todoItem-enter {
+  opacity: 0.01;
+  background: rgb(20,20,20);
+}
+
+.todoItem-enter.todoItem-enter-active {
+  opacity: 1;
+  background: $light-grey;
+  transition: opacity 500ms ease-in;
+  transition: background 4300ms ease-in;
+}
+
+.todoItem-leave {
+  opacity: 1;
+}
+
+.todoItem-leave.todoItem-leave-active {
+  opacity: 0.01;
+  transition: opacity 400ms ease-in;
+}
+
+.todo-list{
+
+}
