@@ -3,6 +3,8 @@ var ReactDataGrid = require('react-data-grid');
 var uuid = require('node-uuid');
 var moment = require('moment');
 var {connect} = require('react-redux');
+var actions = require('actions');
+var helpers = require('helper');
 
 const { Editors, Formatters } = require('react-data-grid-addons');
 const { AutoComplete: AutoCompleteEditor, DropDownEditor } = Editors;
@@ -77,9 +79,9 @@ var MediPlanGrid = React.createClass({
 
     },
     uploadMediPlan() {
-       // TODO: upload current state.
-       var {medications} = this.props;
-       helpers.uploadCurrentMediPlan(medications);
+       var {medications, selection, loginInfo} = this.props;
+       console.log("selection ", selection);
+       helpers.uploadCurrentMediPlan(medications, loginInfo.user.uid, selection.tableId);
     },
     createRows() {
       // TODO: generate random rows data
@@ -111,19 +113,20 @@ var MediPlanGrid = React.createClass({
       var {medications} = this.props;
       return (
         <div>
-          <ReactDataGrid
-            enableCellSelect={true}
-            columns={this.mColumns}
-            rowGetter={this.rowGetter}
-            rowsCount={medications.length}
-          />
-          <button className="button" onClick={this.generateRandomRow}>
-            Add Medication
-          </button>
-          <div className="empty-space"/>
-          <button className="button" onClick={this.uploadMediPlan}>
-            Done!
-          </button>
+          <div className="grid-container">
+            <ReactDataGrid
+              enableCellSelect={true}
+              columns={this.mColumns}
+              rowGetter={this.rowGetter}
+              rowsCount={medications.length}/>
+            <button className="button" onClick={this.generateRandomRow}>
+                Add Medication
+            </button>
+            <div className="empty-space"/>
+            <button className="button" onClick={this.uploadMediPlan}>
+              Done!
+            </button>
+          </div>
         </div>
       );
     }

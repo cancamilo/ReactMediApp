@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
-var meds = {};
-var mediplans = {};
+var medsApp = {};
+var mediplansApp = {};
 
 try {
   // Initialize Firebase Full Medations Data
@@ -22,14 +22,15 @@ try {
     messagingSenderId: "4995134571"
   };
 
-  meds = firebase.initializeApp(configFull);
-  mediplans = firebase.initializeApp(configMediplanApp, 'mediplans');
+  medsApp = firebase.initializeApp(configFull);
+  mediplansApp = firebase.initializeApp(configMediplanApp, 'mediplans');
 
 } catch (e) {
   console.log("Firebase initialization error", e);
 }
 
+export var mediplansApp = mediplansApp;
 export var firebaseRef = firebase.database().ref();
-export var medsDb = meds.database();
-export var mediplansDb = mediplans.database();
+export var medsDb = medsApp.database();
+export var mediplansDb = mediplansApp.database();
 export default firebase;

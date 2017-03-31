@@ -3,19 +3,29 @@ var ReactDOM = require('react-dom');
 
 // Allows children element to dispatch actionss
 var {Provider} = require('react-redux');
-var {Route, Router, IndexRoute, hashHistory} = require('react-router');
-import DashboardApp from 'DashboardApp';
-import MediPlansList from 'MediPlansList';
-import MediPlanGrid from 'MediPlanGrid';
-import Registration from 'Registration';
-import Login from 'Login';
-import SignupForm from 'SignupForm';
+var {hashHistory} = require('react-router');
+import firebase, {mediplansApp} from 'app/firebase/firebaseConfig';
+import router from 'app/router/';
+var actions = require('actions');
 
 var store = require('configureStore').configure();
 
+mediplansApp.auth().onAuthStateChanged((user) =>{
+  if(user) {
+    console.log("on auth state changed...logged in");
+    store.dispatch(actions.loginUser(user));
+    hashHistory.push('/DashboardApp/MediPlansList');
+  } else {
+    console.log("on auth state changed...no user");
+    store.dispatch(actions.logoutUser());
+    hashHistory.push('/');
+  }
+});
+
+// TODO: Add initial list of mediplans
+
 // Load foundation
 $(document).foundation();
-
 
 // App css
 require('style!css!sass!applicationStyles');
@@ -23,16 +33,7 @@ require('style!css!sass!applicationStyles');
 ReactDOM.render(
   // TodoApp component and all of its children will be able to access data in the store and dispatcha actions
   <Provider store = {store}>
-    <Router history={hashHistory}>
-       <Route path="/" component={DashboardApp}>
-        <Route component={Registration}>
-          <IndexRoute component={Login}/>
-          <Route path="SignupForm" component={SignupForm}/>
-        </Route>
-        <Route path="MediPlansList" component={MediPlansList} />
-        <Route path="MediPlanDetail" component={MediPlanGrid} />
-      </Route>
-    </Router>
+    {router}
   </Provider>,
   document.getElementById('app')
 );

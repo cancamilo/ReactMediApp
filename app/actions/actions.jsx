@@ -1,5 +1,6 @@
 import moment from 'moment';
-import firebase, {mediplansDb} from 'app/firebase/firebaseConfig';
+import { hashHistory } from 'react-router';
+import firebase, {mediplansApp, mediplansDb} from 'app/firebase/firebaseConfig';
 var mediplansRef = mediplansDb.ref();
 
 // Add in the specified list
@@ -20,8 +21,9 @@ export var addMedication = (medication) => {
 
 export var startAddMedication = (medication) => {
   return (dispatch, getState) => {
-    var medRef = mediplansRef.child('medications').push(medication);
-
+    var uid = getState().loginInfo.user.uid;
+    var tableId = getState().selection.tableId;
+    var medRef = mediplansRef.child(`usersMedications/${uid}/${tableId}`).push(medication);
     return medRef.then( () => {
       dispatch(addMedication({
         ...medication,
@@ -33,7 +35,9 @@ export var startAddMedication = (medication) => {
 
 export var startAddMedications = () =>{
   return (dispatch, getState) => {
-    return mediplansRef.child('medications').once('value').then((snapshot) => {
+    var uid = getState().loginInfo.user.uid;
+    var tableId = getState().selection.tableId;
+    return mediplansRef.child(`usersMedications/${uid}/${tableId}`).once('value').then((snapshot) => {
       var medications = snapshot.val() || {};
       var parsedMeds = [];
       Object.keys(medications).forEach((medId) => {
@@ -47,8 +51,21 @@ export var startAddMedications = () =>{
   };
 };
 
-
 // Table Actions
+
+export var selectTable = (id) => {
+  return {
+    type: 'SELECT_TABLE',
+    tableId: id
+  };
+}
+
+export var addTables = (tables) => {
+  return {
+    type: 'ADD_TABLES',
+    tables
+  };
+};
 
 export var addTable = (table) =>{
   return {
@@ -66,24 +83,26 @@ export var deleteTable = (id) => {
 
 export var startAddTable = (title) => {
   return (dispatch, getState) =>{
+
     var table = {
       title: title,
       createdAt: moment().unix()
-    }
-    var medRef = mediplansRef.child('tables').push(table);
+    };
+
+    var uid = getState().loginInfo.user.uid;
+    var medRef = mediplansRef.child(`usersTables/${uid}/tables`).push(table);
 
     return medRef.then( () =>{
-      dispatch(addTable(
-        ...table,
-        medRef.id
-      ));
+      dispatch( addTable({...table, id: medRef.key}));
     });
   };
 };
 
 export var startAddTables = () => {
   return (dispatch, getState) =>{
-    return mediplansRef.child('tables').once('value').then((snapshot) => {
+
+    var uid = getState().loginInfo.user.uid;
+    return mediplansRef.child(`usersTables/${uid}/tables`).once('value').then((snapshot) => {
       var tables = snapshot.val() || {};
       var parsedTables = [];
       Object.keys(tables).forEach( (tableId) =>{
@@ -96,18 +115,81 @@ export var startAddTables = () => {
   };
 };
 
+export var startDeletingTable = (id) => {
+  return (dispatch, getState) =>{
+    var uid = getState().loginInfo.user.uid;
+    var medRef = mediplansRef.child(`usersTables/${uid}/tables/${id}`).remove()
+                 .then(() => {
+                   console.log("table removed");
+                   dispatch(deleteTable(id));
+                 });
+  };
+};
 
-// var med = {
-//       id: uuid(),
-//       substance: action.substance,
-//       commercialName: action.commercialName,
-//       strength: action.strength,
-//       form: action.form,
-//       morning: action.morning,
-//       midday: action.midday,
-//       evening: action.evening,
-//       night: action.night,
-//       unity: action.unity,
-//       advice: action.advice,
-//       reason: action.reason
-//   };
+// User Login Actions
+
+export var changePassword = (text) => {
+  return {
+  type: 'PASSWORD_CHANGED',
+  payload: text
+  };
+};
+
+export var changeEmail = (text) => {
+  return {
+    type: 'EMAIL_CHANGED',
+    payload: text
+  };
+};
+
+export var startUserLogin = (email, password) => {
+  return (dispatch, getState) =>{
+      dispatch( {type: 'LOGIN_USER'});
+      mediplansApp.auth().signInWithEmailAndPassword(email, password)
+              .then( user => loginUserSuccess(dispatch, user))
+              .catch((error) => {
+                console.log("auth failed", error);
+                dispatch({type: 'LOGIN_USER_FAIL'});
+              });
+  };
+};
+
+export var startUserSignup = (email, password) => {
+  return (dispatch, getState) =>{
+      dispatch( {type: 'LOGIN_USER'});
+      mediplansApp.auth().createUserWithEmailAndPassword(email, password)
+              .then( user => loginUserSuccess(dispatch, user))
+              .catch((error) => {
+                console.log("auth failed", error);
+                dispatch({type: 'LOGIN_USER_FAIL'});
+      });
+  };
+};
+
+export var loginUser = (user) =>{
+    return {
+      type: 'LOGIN_USER_SUCCESS',
+      payload: user
+    };
+};
+
+const loginUserSuccess = (dispatch, user) =>{
+
+  dispatch({
+      type: 'LOGIN_USER_SUCCESS',
+      payload: user});
+};
+
+export var startUserLogout = () =>{
+  return (dispatch) => {
+    mediplansApp.auth().signOut().then( () => {
+      console.log("User logged out");
+    })
+  };
+}
+
+export var logoutUser = () =>{
+  return {
+    type: 'LOGIN_USER_SUCCESS'
+  };
+};

@@ -34,8 +34,9 @@ export var generateRandomMedication = function() {
     });
 };
 
-export var uploadCurrentMediPlan = function(mediplan) {
-      var node = mediplansDb.ref().child('medications');
+export var uploadCurrentMediPlan = function(mediplan, uid, tableId) {
+      console.log("Adding for user:", uid, " table :", tableId);
+      var node = mediplansDb.ref().child(`usersMedications/${uid}/${tableId}`);
       mediplan.forEach( (med) => {
           node.push(med).then(afterMedPushed).catch(medPushFailed);
       });

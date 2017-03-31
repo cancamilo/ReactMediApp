@@ -16,25 +16,28 @@ var initialTables =     [{
       planId: 3,
       description: 'jhaoiff',
       dateCreated: helpers.getRandomDate(new Date(), new Date(2017, 0, 1))
-    },
-    {
-      planId: 4,
-      description: 'dhstjtzj',
-      dateCreated: helpers.getRandomDate(new Date(), new Date(2017, 0, 1))
-    },
-    {
-      planId: 5,
-      description: 'agerhrthzj',
-      dateCreated: helpers.getRandomDate(new Date(), new Date(2017, 0, 1))
 }];
 
-export const medTablesReducer = (state = initialTables, action) => {
+const initialLoginState = {
+  email: '',
+  password:'',
+  user: null,
+  error: '',
+  loading: false
+};
+
+export const medTablesReducer = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TABLE':
     return [
       ...state,
       action.table
     ];
+    case 'ADD_TABLES':
+      return [
+      ...state,
+      ...action.tables
+      ];
     case 'DELETE_TABLE':
       return state.filter( item => item.id !== action.id);
     default:
@@ -42,10 +45,12 @@ export const medTablesReducer = (state = initialTables, action) => {
   }
 };
 
-export const selectorReducer = (state = null, action) => {
+export const selectorReducer = (state = {}, action) => {
   switch (action.type) {
     case 'SELECT_TABLE':
-      return action.id;
+      return {
+        ...state,
+        tableId: action.tableId};
     default:
       return state;
   }
@@ -77,6 +82,41 @@ export const medicationsReducer = (state = [], action) =>{
           }
           return medication;
         });
+    default:
+      return state;
+  }
+};
+
+export const loginReducer = (state = initialLoginState, action) =>{
+
+  switch (action.type) {
+    case 'EMAIL_CHANGED':
+      return {...state, email: action.payload};
+      break;
+    case 'LOGIN_USER':
+      return {...state, loading: true, error: ''};
+    case 'PASSWORD_CHANGED':
+      return {...state, password: action.payload};
+      break;
+    case 'LOGIN_USER_SUCCESS':
+      return {
+        ...state,
+        user: action.payload,
+        error:'',
+        loading: false,
+        email: '',
+        password: ''};
+    case'LOGOUT_USER_SUCCESS':
+      return {
+        ...state,
+        user: null,
+        error: '',
+        loading: false,
+        email: '',
+        password: ''
+      };
+    case 'LOGIN_USER_FAIL':
+      return {...state, error: 'Auth failed.', password: '', loading: false};
     default:
       return state;
   }
