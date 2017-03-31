@@ -14,6 +14,8 @@ mediplansApp.auth().onAuthStateChanged((user) =>{
   if(user) {
     console.log("on auth state changed...logged in");
     store.dispatch(actions.loginUser(user));
+    store.dispatch(actions.clearTables());
+    store.dispatch(actions.startAddTables());
     hashHistory.push('/DashboardApp/MediPlansList');
   } else {
     console.log("on auth state changed...no user");

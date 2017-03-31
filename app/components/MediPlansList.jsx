@@ -49,8 +49,7 @@ var MediPlansList = React.createClass({
 
   itemClicked(id, obj, event) {
     var {dispatch} = this.props;
-    dispatch(actions.selectTable(id));
-    dispatch(actions.startAddMedications());
+    dispatch(actions.selectTable(id));    
   },
 
   addNewTable() {

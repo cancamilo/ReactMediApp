@@ -51,6 +51,12 @@ export var startAddMedications = () =>{
   };
 };
 
+export var clearMedications = () =>{
+  return {
+      type: 'CLEAR_MEDICATIONS'
+  };
+};
+
 // Table Actions
 
 export var selectTable = (id) => {
@@ -111,6 +117,7 @@ export var startAddTables = () => {
           ...tables[tableId]
         });
       });
+      dispatch(addTables(parsedTables));
     });
   };
 };
@@ -118,11 +125,21 @@ export var startAddTables = () => {
 export var startDeletingTable = (id) => {
   return (dispatch, getState) =>{
     var uid = getState().loginInfo.user.uid;
-    var medRef = mediplansRef.child(`usersTables/${uid}/tables/${id}`).remove()
+    var tabsRef = mediplansRef.child(`usersTables/${uid}/tables/${id}`).remove()
                  .then(() => {
-                   console.log("table removed");
+                   console.log("table removed from user tables");
                    dispatch(deleteTable(id));
                  });
+    var medsRef = mediplansRef.child(`usersMedications/${uid}/${id}`).remove()
+                 .then(() => {
+                   console.log("table removed from user medications");
+                 });
+  };
+};
+
+export var clearTables = () => {
+  return {
+    type: 'CLEAR_TABLES'
   };
 };
 

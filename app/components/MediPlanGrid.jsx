@@ -11,6 +11,12 @@ const { AutoComplete: AutoCompleteEditor, DropDownEditor } = Editors;
 const { DropDownFormatter } = Formatters;
 
 var MediPlanGrid = React.createClass({
+    componentWillMount() {
+      var {dispatch} = this.props;
+      console.log("componentWillmount");
+      dispatch(actions.clearMedications());
+      dispatch(actions.startAddMedications());
+    },
     getInitialState() {
       this.numberOfRows = 5;
       this.mColumns = [
@@ -70,7 +76,6 @@ var MediPlanGrid = React.createClass({
       return {rows: this.createRows()};
     },
     generateRandomRow() {
-      console.log("generate random row");
       var {dispatch} = this.props;
       var med = helpers.generateRandomMedication().then( (item) => {
         console.log("returned in component promise", item);

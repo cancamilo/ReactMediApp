@@ -40,6 +40,8 @@ export const medTablesReducer = (state = [], action) => {
       ];
     case 'DELETE_TABLE':
       return state.filter( item => item.id !== action.id);
+    case 'CLEAR_TABLES':
+      return [];
     default:
       return state;
   }
@@ -82,6 +84,8 @@ export const medicationsReducer = (state = [], action) =>{
           }
           return medication;
         });
+    case 'CLEAR_MEDICATIONS':
+      return [];
     default:
       return state;
   }
