@@ -13,7 +13,7 @@ try {
 module.exports = {
   entry: [
     'script!jquery/dist/jquery.min.js',
-    'script!foundation-sites/dist/foundation.min.js',
+    'script!foundation-sites/dist/js/foundation.min.js',
     './app/app.jsx'
   ],
   externals: {
