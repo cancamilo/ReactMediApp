@@ -32,10 +32,13 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        API_KEY: JSON.stringify(process.env.API_KEY),
-        AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
-        DATABASE_URL: JSON.stringify(process.env.DATABASE_URL),
-        STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET)
+        API_KEY_MEDS: JSON.stringify(process.env.API_KEY_MEDS),
+        AUTH_DOMAIN_MEDS: JSON.stringify(process.env.AUTH_DOMAIN_MEDS),
+        DATABASE_MEDS_URL: JSON.stringify(process.env.DATABASE_MEDS_URL),
+        STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET),
+        API_KEY_MEDIPLAN: JSON.stringify(process.env.API_KEY_MEDIPLAN),
+        AUTH_DOMAIN_MEDIPLAN: JSON.stringify(process.env.AUTH_DOMAIN_MEDIPLAN),
+        DATABASE_MEDIPLAN_URL: JSON.stringify(process.env.DATABASE_MEDIPLAN_URL)
       }
     })
   ],

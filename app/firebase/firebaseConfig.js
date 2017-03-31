@@ -6,20 +6,18 @@ var mediplansApp = {};
 try {
   // Initialize Firebase Full Medations Data
   var configFull = {
-    apiKey: "AIzaSyCW2T31YjkpFWdelQzvKN_dAnnszNcPKdc",
-    authDomain: "mediplans-51d2c.firebaseapp.com",
-    databaseURL: "https://mediplans-51d2c.firebaseio.com",
-    storageBucket: "mediplans-51d2c.appspot.com",
-    messagingSenderId: "636209396658"
+    apiKey: process.env.API_KEY_MEDS,
+    authDomain: process.env.AUTH_DOMAIN_MEDS,
+    databaseURL: process.env.DATABASE_MEDS_URL,
+    storageBucket: process.env.STORAGE_BUCKET
   };
 
   // Initialize Firebase
   var configMediplanApp = {
-    apiKey: "AIzaSyBREvKe5S8uIHKL6BTnnJ4hVdAgqp7Vfh8",
-    authDomain: "mediplanapp.firebaseapp.com",
-    databaseURL: "https://mediplanapp.firebaseio.com",
-    storageBucket: "mediplanapp.appspot.com",
-    messagingSenderId: "4995134571"
+    apiKey: process.env.API_KEY_MEDIPLAN,
+    authDomain: process.env.AUTH_DOMAIN_MEDIPLAN,
+    databaseURL: process.env.DATABASE_MEDIPLAN_URL,
+    storageBucket: process.env.STORAGE_BUCKET  
   };
 
   medsApp = firebase.initializeApp(configFull);
