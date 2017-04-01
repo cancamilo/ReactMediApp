@@ -12,10 +12,14 @@ export var configure = (initialState = {}) => {
     loginInfo: loginReducer
   });
 
-  var store = redux.createStore(reducer, initialState, redux.compose(
-    redux.applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  ));
+  // var store = redux.createStore(reducer, initialState, redux.compose(
+  //   redux.applyMiddleware(thunk),
+  //   window.devToolsExtension && window.devToolsExtension()
+  // ));
+
+  var store = redux.createStore(reducer, initialState, redux.compose(redux.applyMiddleware(thunk), window.devToolsExtension
+        ? window.devToolsExtension()
+        : f => f));
 
   return store;
 };
