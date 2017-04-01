@@ -2,13 +2,13 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 // Allows children element to dispatch actionss
-var {Provider} = require('react-redux');
-var {hashHistory} = require('react-router');
+//var {Provider} = require('react-redux');
+//var {hashHistory} = require('react-router');
 //import firebase, {mediplansApp} from 'app/firebase/firebaseConfig';
-import router from 'app/router/';
-var actions = require('actions');
+//import router from 'app/router/';
+//var actions = require('actions');
 
-var store = require('configureStore').configure();
+//var store = require('configureStore').configure();
 
 // mediplansApp.auth().onAuthStateChanged((user) =>{
 //   if(user) {
@@ -32,8 +32,8 @@ require('style!css!sass!applicationStyles');
 
 ReactDOM.render(
   // TodoApp component and all of its children will be able to access data in the store and dispatcha actions
-  <Provider store = {store}>
-    <h1>Testing!</h1>
-  </Provider>,
+  // <Provider store = {store}>
+    <h1>Testing!</h1>,
+  // </Provider>
   document.getElementById('app')
 );
