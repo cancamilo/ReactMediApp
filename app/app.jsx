@@ -35,7 +35,7 @@ require('style!css!sass!applicationStyles');
 ReactDOM.render(
   // TodoApp component and all of its children will be able to access data in the store and dispatcha actions
   <Provider store = {store}>
-    {router}
+    <h1>Testing!</h1>
   </Provider>,
   document.getElementById('app')
 );
