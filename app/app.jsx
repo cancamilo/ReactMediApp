@@ -10,21 +10,19 @@ var actions = require('actions');
 
 var store = require('configureStore').configure();
 
-mediplansApp.auth().onAuthStateChanged((user) =>{
-  if(user) {
-    console.log("on auth state changed...logged in");
-    store.dispatch(actions.loginUser(user));
-    store.dispatch(actions.clearTables());
-    store.dispatch(actions.startAddTables());
-    hashHistory.push('/DashboardApp/MediPlansList');
-  } else {
-    console.log("on auth state changed...no user");
-    store.dispatch(actions.logoutUser());
-    hashHistory.push('/');
-  }
-});
-
-// TODO: Add initial list of mediplans
+// mediplansApp.auth().onAuthStateChanged((user) =>{
+//   if(user) {
+//     console.log("on auth state changed...logged in");
+//     store.dispatch(actions.loginUser(user));
+//     store.dispatch(actions.clearTables());
+//     store.dispatch(actions.startAddTables());
+//     hashHistory.push('/DashboardApp/MediPlansList');
+//   } else {
+//     console.log("on auth state changed...no user");
+//     store.dispatch(actions.logoutUser());
+//     hashHistory.push('/');
+//   }
+// });
 
 // Load foundation
 $(document).foundation();
