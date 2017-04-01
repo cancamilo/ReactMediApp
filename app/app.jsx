@@ -4,7 +4,7 @@ var ReactDOM = require('react-dom');
 // Allows children element to dispatch actionss
 var {Provider} = require('react-redux');
 var {hashHistory} = require('react-router');
-import firebase, {mediplansApp} from 'app/firebase/firebaseConfig';
+//import firebase, {mediplansApp} from 'app/firebase/firebaseConfig';
 import router from 'app/router/';
 var actions = require('actions');
 
